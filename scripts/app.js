@@ -12,7 +12,6 @@ const email = document.getElementById("email");
 const profileLink = document.getElementById("profile-link");
 const followers = document.getElementById("followers");
 const following = document.getElementById("following");
-
 const reposCount = document.getElementById("repositories");
 
 const companyElement = document.getElementById("company");
@@ -23,6 +22,15 @@ const blogContainer = document.getElementById("blog-container");
 const twitterContainer = document.getElementById("twitter-container");
 const reposContainer = document.getElementById("repos-container");
 
+window.addEventListener("load", () => {
+  const savedUsername = localStorage.getItem("lastUsername");
+
+  if (savedUsername && savedUsername !== "") {
+    searchInput.value = savedUsername;
+    searchUser();
+  }
+});
+
 searchBtn.addEventListener("click", searchUser);
 searchInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") searchUser();
@@ -32,6 +40,8 @@ searchInput.addEventListener("keypress", (e) => {
 async function searchUser() {
   const username = searchInput.value.trim();
   if (!username) return alert("Please enter a username");
+
+  localStorage.setItem("lastUsername", username);
 
   try {
     profileContainer.classList.add("hidden");
@@ -178,7 +188,7 @@ function displayUserData(user) {
 
 function showError() {
   errorContainer.classList.remove("hidden");
-  profileContainer.classList.add("hidden");
+  profileContainer.classList.add("hidden"); 
 }
 
 function formatDate(dateString) {
