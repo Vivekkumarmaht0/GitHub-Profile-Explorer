@@ -25,11 +25,17 @@ const reposContainer = document.getElementById("repos-container");
 window.addEventListener("load", () => {
   const savedUsername = localStorage.getItem("lastUsername");
 
-  if (savedUsername && savedUsername !== "") {
+  // Only load if user has actually searched before
+  if (savedUsername) {
     searchInput.value = savedUsername;
     searchUser();
+  } else {
+    // Hide profile on first visit
+    profileContainer.classList.add("hidden");
+    errorContainer.classList.add("hidden");
   }
 });
+
 
 searchBtn.addEventListener("click", searchUser);
 searchInput.addEventListener("keypress", (e) => {
@@ -40,8 +46,6 @@ searchInput.addEventListener("keypress", (e) => {
 async function searchUser() {
   const username = searchInput.value.trim();
   if (!username) return alert("Please enter a username");
-
-  localStorage.setItem("lastUsername", username);
 
   try {
     profileContainer.classList.add("hidden");
@@ -61,6 +65,10 @@ async function searchUser() {
     if (!response.ok) throw new Error("User not found");
 
     const userData = await response.json();
+
+    // save the users search
+    localStorage.setItem("lastUsername", username);
+
     displayUserData(userData);
     fetchRepositories(userData.repos_url);
 
@@ -94,7 +102,7 @@ let timeout;
 
 function handleSearch() {
   clearTimeout(timeout);
-  timeout = setTimeout(searchUser, 500); // waits 500ms
+  timeout = setTimeout(searchUser, 500); 
 }
 
 
@@ -223,4 +231,12 @@ themeSwitch.addEventListener("click", () => {
   }
 });
 
+// Clear saved search 
+function clearSearch() {
+  localStorage.removeItem("lastUsername");
+  searchInput.value = "";
+  profileContainer.classList.add("hidden");
+  errorContainer.classList.add("hidden");
+  reposContainer.innerHTML = "";
+}
 

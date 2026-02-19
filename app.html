@@ -36,16 +36,24 @@
           </p>
         </header>
 
-        <div class="search-container">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input
-            type="text"
-            id="search"
-            placeholder="Enter a GitHub username"
-            autocomplete="off"
-          />
-          <button id="search-btn">Search</button>
+        <div class="search-wrapper">
+          <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            
+            <input
+              type="text"
+              id="search"
+              placeholder="Enter a GitHub username"
+              autocomplete="off"
+            />
+            
+            <button id="search-btn">Search</button>
+          </div>
+
+          <!-- Clear button outside -->
+          <button onclick="clearSearch()" class="clear-btn">Clear</button>
         </div>
+
       </div>
       <!-- <header>
         <h1><i class="fab fa-github"></i> GitHub Profile Explorer</h1>
